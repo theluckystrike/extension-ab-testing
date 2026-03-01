@@ -1,0 +1,37 @@
+{
+    "name": "extension-ab-testing",
+    "version": "0.1.0",
+    "description": "A/B testing framework for Chrome extensions — experiment variants, user bucketing, conversion tracking, statistical significance, and persistent assignments for MV3.",
+    "author": "Zovo <hello@zovo.one>",
+    "license": "MIT",
+    "keywords": [
+        "chrome-extension",
+        "ab-testing",
+        "experiment",
+        "variant",
+        "split-test",
+        "conversion",
+        "manifest-v3",
+        "browser-extension",
+        "analytics"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/theluckystrike/extension-ab-testing.git"
+    },
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "prepublishOnly": "npm run build"
+    },
+    "devDependencies": {
+        "@types/chrome": "^0.0.260",
+        "typescript": "^5.3.3"
+    }
+}
