@@ -1,21 +1,18 @@
-# extension-ab-testing — A/B Testing Framework for Chrome Extensions
+# extension-ab-testing
 
-[![npm version](https://img.shields.io/npm/v/extension-ab-testing.svg)](https://www.npmjs.com/package/extension-ab-testing)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
-[![Zero Dependencies](https://img.shields.io/badge/dependencies-0-green.svg)]()
+A/B testing framework for Chrome extensions. Built by theluckystrike.
 
-> **Built by [Zovo](https://zovo.one)** — A/B testing across 18+ Chrome extensions
+## Overview
 
-**Weighted variant selection, conversion tracking, and statistical significance testing** at 95% confidence level. Zero runtime dependencies.
+extension-ab-testing provides weighted variant selection, conversion tracking, and statistical significance testing for Chrome extensions. The library works with Manifest V3 and requires zero runtime dependencies.
 
-## 📦 Install
+## Install
 
 ```bash
 npm install extension-ab-testing
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ```typescript
 import { ABTesting } from 'extension-ab-testing';
@@ -47,9 +44,7 @@ if (ab.isSignificant('cta_test')) {
 }
 ```
 
-## ✨ Features
-
-### Weighted Variants
+## Weighted Variants
 
 Assign different weights to variants to control traffic distribution:
 
@@ -58,7 +53,7 @@ Assign different weights to variants to control traffic distribution:
 ab.define('feature_test', 'New Feature', ['control', 'treatment'], [80, 20]);
 ```
 
-### Persistence
+## Persistence
 
 Save and load experiment state:
 
@@ -70,7 +65,7 @@ await ab.save();
 await ab.load();
 ```
 
-### Statistical Significance
+## Statistical Significance
 
 Built-in z-test for 95% confidence:
 
@@ -81,19 +76,59 @@ ab.isSignificant('experiment_id');
 
 ## API Reference
 
-### `ABTesting`
+### ABTesting Class
 
-| Method | Description |
-|--------|-------------|
-| `define(id, name, variants, weights?)` | Define a new experiment |
-| `getVariant(id)` | Get assigned variant for user |
-| `convert(id)` | Track a conversion |
-| `getResults(id)` | Get impressions, conversions, rates |
-| `isSignificant(id)` | Check 95% confidence |
-| `deactivate(id)` | Stop an experiment |
-| `save()` | Persist to chrome.storage |
-| `load()` | Load from chrome.storage |
+**constructor(storageKey?: string)**
+Creates a new A/B testing instance. Default storage key is `__ab_tests__`.
 
-## 📄 License
+**define(id: string, name: string, variants: string[], weights?: number[]): this**
+Defines a new experiment with the given ID, name, variants, and optional weights.
 
-MIT — [Zovo](https://zovo.one)
+**getVariant(experimentId: string): string | null**
+Returns the assigned variant for the current user. Returns null if experiment is not found or inactive.
+
+**convert(experimentId: string): void**
+Records a conversion for the given experiment.
+
+**getResults(experimentId: string): Record<string, { impressions: number; conversions: number; rate: number }> | null**
+Returns impressions, conversions, and conversion rate per variant.
+
+**isSignificant(experimentId: string): boolean**
+Checks if the result is statistically significant at 95% confidence level. Requires 30+ impressions per variant.
+
+**deactivate(experimentId: string): void**
+Stops an experiment by setting its active flag to false.
+
+**save(): Promise<void>**
+Persists experiment state to chrome.storage.local.
+
+**load(): Promise<void>**
+Loads experiment state from chrome.storage.local.
+
+## Experiment Interface
+
+```typescript
+interface Experiment {
+    id: string;
+    name: string;
+    variants: string[];
+    weights?: number[];
+    active: boolean;
+    conversions: Record<string, number>;
+    impressions: Record<string, number>;
+}
+```
+
+## Requirements
+
+- Chrome Extensions API (@types/chrome)
+- TypeScript 5.0+
+- Manifest V3
+
+## License
+
+MIT License Copyright (c) 2025 theluckystrike
+
+## About
+
+extension-ab-testing is maintained by theluckystrike. Built for Chrome extension experimentation at zovo.one.
