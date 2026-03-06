@@ -2,17 +2,17 @@
 
 A/B testing framework for Chrome extensions. Built by theluckystrike.
 
-## Overview
+## OVERVIEW
 
 extension-ab-testing provides weighted variant selection, conversion tracking, and statistical significance testing for Chrome extensions. The library works with Manifest V3 and requires zero runtime dependencies.
 
-## Install
+## INSTALL
 
 ```bash
 npm install extension-ab-testing
 ```
 
-## Quick Start
+## QUICK START
 
 ```typescript
 import { ABTesting } from 'extension-ab-testing';
@@ -44,7 +44,7 @@ if (ab.isSignificant('cta_test')) {
 }
 ```
 
-## Weighted Variants
+## WEIGHTED VARIANTS
 
 Assign different weights to variants to control traffic distribution:
 
@@ -53,7 +53,7 @@ Assign different weights to variants to control traffic distribution:
 ab.define('feature_test', 'New Feature', ['control', 'treatment'], [80, 20]);
 ```
 
-## Persistence
+## PERSISTENCE
 
 Save and load experiment state:
 
@@ -65,7 +65,7 @@ await ab.save();
 await ab.load();
 ```
 
-## Statistical Significance
+## STATISTICAL SIGNIFICANCE
 
 Built-in z-test for 95% confidence:
 
@@ -74,38 +74,47 @@ ab.isSignificant('experiment_id');
 // Returns true if results are statistically significant (requires 30+ impressions per variant)
 ```
 
-## API Reference
+## API REFERENCE
 
 ### ABTesting Class
 
 **constructor(storageKey?: string)**
+
 Creates a new A/B testing instance. Default storage key is `__ab_tests__`.
 
 **define(id: string, name: string, variants: string[], weights?: number[]): this**
+
 Defines a new experiment with the given ID, name, variants, and optional weights.
 
 **getVariant(experimentId: string): string | null**
+
 Returns the assigned variant for the current user. Returns null if experiment is not found or inactive.
 
 **convert(experimentId: string): void**
+
 Records a conversion for the given experiment.
 
 **getResults(experimentId: string): Record<string, { impressions: number; conversions: number; rate: number }> | null**
+
 Returns impressions, conversions, and conversion rate per variant.
 
 **isSignificant(experimentId: string): boolean**
+
 Checks if the result is statistically significant at 95% confidence level. Requires 30+ impressions per variant.
 
 **deactivate(experimentId: string): void**
+
 Stops an experiment by setting its active flag to false.
 
 **save(): Promise<void>**
+
 Persists experiment state to chrome.storage.local.
 
 **load(): Promise<void>**
+
 Loads experiment state from chrome.storage.local.
 
-## Experiment Interface
+### Experiment Interface
 
 ```typescript
 interface Experiment {
@@ -119,16 +128,16 @@ interface Experiment {
 }
 ```
 
-## Requirements
+## REQUIREMENTS
 
 - Chrome Extensions API (@types/chrome)
 - TypeScript 5.0+
 - Manifest V3
 
-## License
+## LICENSE
 
 MIT License Copyright (c) 2025 theluckystrike
 
-## About
+## ABOUT
 
 extension-ab-testing is maintained by theluckystrike. Built for Chrome extension experimentation at zovo.one.
